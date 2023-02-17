@@ -18,7 +18,7 @@
         align-items: center;
         margin: 0;
         padding: 0;
-        gap: 1rem;
+        gap: 2rem;
     }
 
     .icon {

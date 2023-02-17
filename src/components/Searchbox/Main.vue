@@ -12,6 +12,9 @@
 </template>
 
 <style scope>
+    .searchbox {
+        margin-left: 1rem;
+    }
     .searchbox-input {
         padding: 6px 4rem;
         font-size: .9rem;
