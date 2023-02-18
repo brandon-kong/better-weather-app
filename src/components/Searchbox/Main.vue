@@ -36,10 +36,6 @@ export default {
             search: '',
             msg: 'Welcome to Your Vue.js App'
         }
-    },
-
-    created () {
-        console.log(this.search)
     }
 }
 

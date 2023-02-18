@@ -35,6 +35,7 @@ nav a {
 
 <script>
 
+// States
 import Navbar from './components/Navbar/Main.vue'
 
 export default {

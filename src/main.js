@@ -10,6 +10,18 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // Specific icons
 import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
 
+// State management
+import { createPinia } from 'pinia'
+const pinia = createPinia()
+
+// Creating the app
+const app = createApp(App)
+
+// Adding icons to the library
 library.add(faGithub, faTwitter)
 
-createApp(App).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+// Mounting the app
+app.use(router)
+app.use(pinia)
+app.component('font-awesome-icon', FontAwesomeIcon)
+app.mount('#app')

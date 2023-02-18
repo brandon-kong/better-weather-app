@@ -35,17 +35,14 @@ export default {
         return {
             sites: [
                 {
-                    id: 1,
                     icon: 'fa-brands fa-github',
                     url: 'https://github.com/brandon-kong/better-weather-app'
                 },
                 {
-                    id: 2,
                     icon: 'fa-brands fa-twitter',
                     url: 'https://google.com'
                 }
-            ],
-            msg: 'Welcome to Your Vue.js App'
+            ]
         }
     },
 
