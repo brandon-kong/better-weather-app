@@ -9,8 +9,8 @@
         </div>
         <div v-else>
             <p>Weather for {{ location.city }}, {{ location.region }}</p>
-            <p>Current Temp: {{ location.temp }}°F</p>
-            <p>Feels Like: {{ location.feelsLike }}°F</p>
+            <p>Current Temp: {{ clientWeather.currentTemp }}°F</p>
+            <p>Feels Like: {{ clientWeather.apparentTemp }}°F</p>
             <p>Humidity: {{ location.humidity }}%</p>
             <p>Wind Speed: {{ location.windSpeed }} mph</p>
             <p>Wind Direction: {{ location.windDirection }}</p>
@@ -34,7 +34,8 @@ export default {
     data () {
         return {
             loading: false,
-            location: null
+            location: null,
+            clientWeather: {}
         }
     },
 
@@ -53,6 +54,14 @@ export default {
             locationStore.getLocation.then((location) => {
                 this.location = location
                 this.loading = false
+
+                // console.log(location.coords)
+                const b = locationStore.getWeather(location.coords.latitude, location.coords.longitude)
+                b.then((weather) => {
+                    console.log(weather)
+                    this.clientWeather.currentTemp = weather.hourly.temperature_2m[0]
+                    this.clientWeather.apparentTemp = weather.hourly.apparent_temperature[0]
+                })
             })
         }
     }
