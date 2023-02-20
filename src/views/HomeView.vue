@@ -4,7 +4,9 @@
             <div class="mini-navbar left">
                 <img src="@/assets/logo.png" alt="logo" width="80" />
             </div>
-            <StackText />
+            <div class="stack-holder-center">
+                <StackText />
+            </div>
         </div>
         <div class="grid-item home-right">
             <div class="mini-navbar right">
@@ -46,10 +48,13 @@
     .container {
         display: grid;
         grid-template-columns: 5fr 6fr;
+        grid-template-rows: 1fr 1fr;
     }
 
     .grid-item {
         padding: 2rem;
+        grid-row-start: 1;
+        grid-row-end: 2;
     }
 
     .mini-navbar {
@@ -60,10 +65,6 @@
         min-height: 50px;
     }
 
-    .mini-navbar.left {
-        padding-bottom: 10rem;
-    }
-
     .mini-navbar.right {
         justify-content: flex-end;
         gap: 2rem;
@@ -72,20 +73,31 @@
     .home-left {
         grid-column-start: 1;
         grid-column-end: 1;
+
+        grid-row-start: 1;
+        grid-row-end: 3;
+
         background-color: #fff;
         color: #000;
-
-        height: 50vh;
     }
 
     .home-right {
         grid-column-start: 2;
         grid-column-end: 2;
+
         background-color: #000;
         color: #fff;
 
         height: 50vh;
     }
+
+    .stack-holder-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100% - 60px);
+    }
+
 </style>
 <script>
 

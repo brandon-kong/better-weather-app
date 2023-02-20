@@ -1,6 +1,7 @@
 <template>
     <div class="stack-container">
-        <h1 class="stack-title">Weather</h1>
+        <div class="stack-status">New</div>
+        <h1 class="stack-title"><strong>Weather</strong></h1>
         <h2 class="stack-subtitle">Like you've never seen before</h2>
         <p class="stack-text">Get extensive weather reports for any place in the world!</p>
     </div>
@@ -9,11 +10,11 @@
 <style scoped>
     h1, h2, p {
         margin: 0;
-        padding: 5px 0;
+        padding: 2px 0;
     }
 
     .stack-container {
-        width: 80%;
+        width: 30rem;
         margin: auto;
         display: flex;
         flex-direction: column;
@@ -23,22 +24,31 @@
         height: auto;
     }
 
+    .stack-status {
+        padding: .1rem 1rem;
+        border-radius: 30px;
+        font-size: 1rem;
+        font-weight: 400;
+        color: #fff;
+        background-color: #a24ab0;
+    }
+
     .stack-title {
-        font-size: 1.7rem;
-        font-weight: 900;
+        font-size: 2.5rem;
+
         color: #000;
-        line-height: 1.2;
+        line-height: 1.3;
     }
 
     .stack-subtitle {
-        font-size: 1.2rem;
-        font-weight: 600;
+        font-size: 1.8rem;
+        font-weight: 400;
         color: #a4a4a4;
         line-height: 1.1;
     }
 
     .stack-text {
-        font-size: 1rem;
+        font-size: 1.2rem;
         font-weight: 400;
         color: #a4a4a4;
         line-height: 1.2;
