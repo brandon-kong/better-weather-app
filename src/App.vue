@@ -1,5 +1,4 @@
 <template>
-    <Navbar/>
     <router-view/>
     <footer>
         <p>
@@ -11,6 +10,7 @@
 </template>
 
 <style>
+
 body, h1 {
    padding: 0;
    margin: 0;
@@ -21,7 +21,7 @@ body, h1 {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     box-sizing: border-box;
-    color: #2c3e50;
+    color: #fff;
     padding: 0;
     margin: 0;
 }
@@ -36,12 +36,11 @@ nav a {
 <script>
 
 // States
-import Navbar from './components/Navbar/Main.vue'
+// import Navbar from './components/Navbar/Main.vue'
 
 export default {
     name: 'App',
     components: {
-        Navbar
     }
 }
 </script>

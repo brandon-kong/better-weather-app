@@ -13,16 +13,19 @@
 
 <style scoped>
     .container {
-        padding: 0;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        border-bottom: 1px solid #ccc;
+        padding: 0 2rem 0 2rem;
+        padding-top: 20px;
+        background: rgba(151, 149, 149, 0);
+
+        position: absolute;
+        top: 0px;
+        width: 100%;
     }
+
     .nav-container {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: white;
         max-height: 60px;
         min-height: 50px;
     }
@@ -30,7 +33,7 @@
     .title {
         font-size: 1.5rem;
         font-weight: 600;
-        color: rgb(0, 0, 0);
+        color: #a4a4a4;
     }
 
 </style>

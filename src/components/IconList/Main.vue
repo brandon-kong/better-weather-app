@@ -18,12 +18,18 @@
         align-items: center;
         margin: 0;
         padding: 0;
-        gap: 2rem;
+        gap: 1rem;
     }
 
     .icon {
-        font-size: 1.8rem;
-        color: #303030;
+        font-size: 1.3rem;
+        color: #a4a4a4;
+        opacity: 0.3;
+        transition: all 0.3s ease;
+    }
+
+    .icon:hover {
+        opacity: 0.7;
     }
 </style>
 

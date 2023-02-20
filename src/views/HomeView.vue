@@ -1,4 +1,18 @@
 <template>
+    <div class="container">
+        <div class="grid-item home-left">
+            <div class="mini-navbar left">
+                <img src="@/assets/logo.png" alt="logo" width="80" />
+            </div>
+            <StackText />
+        </div>
+        <div class="grid-item home-right">
+            <div class="mini-navbar right">
+                <Searchbox />
+                <IconList />
+            </div>
+        </div>
+    </div>
     <div class="home">
         <div v-if="location === null && loading === false">
             <p>Get the weather?</p>
@@ -22,12 +36,66 @@
     </div>
 </template>
 
+<style>
+
+    body {
+        background-color: #000;
+        color: #fff;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: 5fr 6fr;
+    }
+
+    .grid-item {
+        padding: 2rem;
+    }
+
+    .mini-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-height: 60px;
+        min-height: 50px;
+    }
+
+    .mini-navbar.left {
+        padding-bottom: 10rem;
+    }
+
+    .mini-navbar.right {
+        justify-content: flex-end;
+        gap: 2rem;
+    }
+
+    .home-left {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        background-color: #fff;
+        color: #000;
+
+        height: 50vh;
+    }
+
+    .home-right {
+        grid-column-start: 2;
+        grid-column-end: 2;
+        background-color: #000;
+        color: #fff;
+
+        height: 50vh;
+    }
+</style>
 <script>
 
 import { useLocationStore } from '@/stores/LocationStore'
 
 // Components
 import Button from '@/components/Home/Button.vue'
+import Searchbox from '@/components/Searchbox/Main.vue'
+import IconList from '@/components/IconList/Main.vue'
+import StackText from '@/components/StackText/Main.vue'
 
 export default {
     name: 'HomeView',
@@ -40,7 +108,10 @@ export default {
     },
 
     components: {
-        Button
+        Button,
+        Searchbox,
+        IconList,
+        StackText
     },
 
     created () {
