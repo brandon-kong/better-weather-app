@@ -2,16 +2,25 @@
     <div class="container">
         <div class="grid-item home-left">
             <div class="mini-navbar left">
-                <img src="@/assets/logo.png" alt="logo" width="80" />
+                <img class="logo" src="@/assets/logo.png" alt="logo" width="80" />
+                <font-awesome-icon class="hamburger-icon" icon="fa-solid fa-bars"></font-awesome-icon>
             </div>
             <div class="stack-holder-center">
-                <StackText />
+                <StackText class="stack-text"
+                    status="New"
+                    title="Weather App Made With Vue.js"
+                    subtitle="Easy and extensive"
+                    text="This is a simple weather app that uses the OpenWeatherMap API to get the weather for your location. It also uses the IP Geolocation API to get your location. This app was made using Vue.js and Tailwind CSS."
+                />
             </div>
         </div>
         <div class="grid-item home-right">
             <div class="mini-navbar right">
                 <Searchbox />
                 <IconList />
+            </div>
+            <div class="stack-holder-center">
+                <img class="hero-img" src="@/assets/weather.svg" alt="hero" />
             </div>
         </div>
     </div>
@@ -38,7 +47,7 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 
     body {
         background-color: #000;
@@ -48,7 +57,52 @@
     .container {
         display: grid;
         grid-template-columns: 5fr 6fr;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: 800px;
+    }
+
+    .logo {
+        cursor: pointer;
+    }
+
+    .hamburger-icon {
+        display: none;
+        cursor: pointer;
+        font-size: 2rem;
+        color: black;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .container {
+            grid-template-columns: 1fr;
+            grid-template-rows: 600px 600px;
+        }
+
+        .grid-item {
+            grid-column-start: 1 !important;
+            grid-column-end: 3 !important;
+        }
+
+        .home-left {
+            grid-row-start: 1 !important;
+            grid-row-end: 2 !important;
+        }
+
+        .home-right {
+            grid-row-start: 2 !important;
+            grid-row-end: 3 !important;
+        }
+
+        .stack-text {
+            width: 20rem;
+        }
+
+        .mini-navbar.right {
+            display: none;
+        }
+
+        .hamburger-icon {
+            display: block;
+        }
     }
 
     .grid-item {
@@ -71,24 +125,15 @@
     }
 
     .home-left {
-        grid-column-start: 1;
-        grid-column-end: 1;
-
-        grid-row-start: 1;
-        grid-row-end: 3;
-
         background-color: #fff;
         color: #000;
     }
 
     .home-right {
-        grid-column-start: 2;
-        grid-column-end: 2;
-
-        background-color: #000;
+        background-color: #111111;
         color: #fff;
-
-        height: 50vh;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 
     .stack-holder-center {
@@ -96,6 +141,12 @@
         justify-content: center;
         align-items: center;
         height: calc(100% - 60px);
+    }
+
+    .hero-img {
+        width: 90%;
+        height: 100%;
+        object-fit: contain;
     }
 
 </style>

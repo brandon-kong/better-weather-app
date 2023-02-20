@@ -11,14 +11,17 @@
 
 <style>
 
+:root {
+    --color-primary: #a24ab0;
+}
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 #app {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Lato', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     box-sizing: border-box;
@@ -30,6 +33,21 @@
 nav a {
     font-weight: bold;
     color: #2c3e50;
+}
+
+@font-face {
+    font-family: 'Lato', sans-serif;
+    src: url('~@/assets/fonts/Lato-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Lato Light', sans-serif;
+    src: url('~@/assets/fonts/Lato-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Lato Bold', sans-serif;
+    src: url('~@/assets/fonts/Lato-Bold.ttf');
 }
 
 </style>

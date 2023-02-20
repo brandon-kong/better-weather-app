@@ -1,9 +1,9 @@
 <template>
     <div class="stack-container">
-        <div class="stack-status">New</div>
-        <h1 class="stack-title">Weather</h1>
-        <h2 class="stack-subtitle">Like you've never seen before</h2>
-        <p class="stack-text">Get extensive weather reports for any place in the world!</p>
+        <div class="stack-status">{{ status }}</div>
+        <h1 class="stack-title">{{ title }}</h1>
+        <h2 class="stack-subtitle">{{ subtitle }}</h2>
+        <p class="stack-text">{{ text }}</p>
     </div>
 </template>
 
@@ -29,8 +29,7 @@
         border-radius: 30px;
         font-size: 1.3git addrem;
         font-weight: 600;
-        color: #a24ab0;
-        background-color: #a24ab0;
+        color: var(--color-primary);
         background-color: white;
     }
 
@@ -60,7 +59,26 @@
 <script>
 
 export default {
-    name: 'StackText'
+    name: 'StackText',
+
+    props: {
+        status: {
+            type: String,
+            default: 'New'
+        },
+        title: {
+            type: String,
+            default: 'Stack Text'
+        },
+        subtitle: {
+            type: String,
+            default: 'Like you\'ve never seen before'
+        },
+        text: {
+            type: String,
+            default: 'Get extensive weather reports for any place in the world!'
+        }
+    }
 }
 
 </script>
