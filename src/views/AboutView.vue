@@ -6,9 +6,6 @@
 </template>
 
 <style scoped>
-    .wrapper {
-        padding: 10px
-    }
 </style>
 <script>
 

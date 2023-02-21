@@ -1,12 +1,13 @@
 <template>
     <nav class="container">
         <div class="nav-container">
-            <img draggable="false" class="logo" src="@/assets/logo.png" alt="logo" width="80" />
+            <IconNav />
             <form @submit.stop.prevent="submit" class="search-form">
-                <Searchbox v-model="search"/>
+                <Searchbox v-model="search" class="search-box"/>
             </form>
 
-            <IconList />
+            <IconList class="icon-list"/>
+            <font-awesome-icon class="hamburger-icon" icon="bars" />
         </div>
     </nav>
 </template>
@@ -18,6 +19,7 @@
         background: rgba(151, 149, 149, 0);
 
         width: 100%;
+        padding-bottom: 200px;
     }
 
     .nav-container {
@@ -34,12 +36,30 @@
         color: #a4a4a4;
     }
 
+    .hamburger-icon {
+        display: none;
+        cursor: pointer;
+        font-size: var(--hamburger-icon-size);
+        color: black;
+    }
+
+    @media (max-width: 1000px) {
+        .icon-list, .search-box {
+            display: none;
+        }
+
+        .hamburger-icon {
+            display: block;
+        }
+    }
+
 </style>
 
 <script>
 
-import Searchbox from '../Searchbox/Main.vue'
-import IconList from '../IconList/Main.vue'
+import Searchbox from '@/components/Searchbox/Main.vue'
+import IconList from '@/components/IconList/Main.vue'
+import IconNav from '@/components/Home/IconNav.vue'
 
 export default {
     name: 'NavBar',
@@ -52,7 +72,8 @@ export default {
 
     components: {
         Searchbox,
-        IconList
+        IconList,
+        IconNav
     }
 }
 

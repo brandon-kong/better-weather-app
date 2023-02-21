@@ -3,7 +3,7 @@
         <div class="container">
             <div class="grid-item home-left">
                 <div class="mini-navbar left">
-                    <img draggable="false" class="logo" src="@/assets/logo.png" alt="logo" width="80" />
+                    <IconNav />
                     <font-awesome-icon class="hamburger-icon" icon="fa-solid fa-bars"></font-awesome-icon>
                 </div>
                 <div class="stack-holder-center">
@@ -51,11 +51,6 @@
 </template>
 
 <style scoped>
-
-    .wrapper {
-        padding: 10px
-    }
-
     .container {
         display: grid;
         grid-template-columns: 5fr 6fr;
@@ -71,7 +66,7 @@
     .hamburger-icon {
         display: none;
         cursor: pointer;
-        font-size: 2rem;
+        font-size: var(--hamburger-icon-size);
         color: black;
     }
 
@@ -171,6 +166,7 @@
 import { useLocationStore } from '@/stores/LocationStore'
 
 // Components
+import IconNav from '@/components/Home/IconNav.vue'
 import Button from '@/components/Home/Button.vue'
 import Searchbox from '@/components/Searchbox/Main.vue'
 import IconList from '@/components/IconList/Main.vue'
@@ -190,7 +186,8 @@ export default {
         Button,
         Searchbox,
         IconList,
-        StackText
+        StackText,
+        IconNav
     },
 
     watch: {

@@ -15,6 +15,7 @@
     --color-primary-dark: #9543a1;
 
     --small-screens-width: 1000px;
+    --hamburger-icon-size: 2rem;
 
 }
 * {
