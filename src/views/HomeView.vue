@@ -47,8 +47,21 @@
 
     .container {
         display: grid;
-        grid-template-columns: 5fr 6fr;
+        grid-template-columns: 40% 60%;
         grid-template-rows: 1fr 1fr;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+        }
+
+        .home-right {
+            grid-column-start: 1;
+            grid-row-start: 2;
+            grid-row-end: 2;
+        }
     }
 
     .grid-item {
