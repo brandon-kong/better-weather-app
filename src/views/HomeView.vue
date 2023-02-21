@@ -47,13 +47,15 @@
                 <p>Weather Icon URL: {{ location.weatherIconUrl }}</p>
             </div>
         </div>
+        <div class="container">
+        </div>
     </div>
 </template>
 
 <style scoped>
     .container {
         display: grid;
-        grid-template-columns: 5fr 6fr;
+        grid-template-columns: 1fr 1fr;
         grid-template-rows: 800px;
 
         transition: all 0.5s ease;
@@ -178,7 +180,8 @@ export default {
         return {
             loading: false,
             location: null,
-            clientWeather: {}
+            clientWeather: {},
+            num: 0
         }
     },
 
@@ -219,6 +222,9 @@ export default {
                     this.clientWeather.apparentTemp = weather.hourly.apparent_temperature[0]
                 })
             })
+        },
+        addNumber () {
+            this.num++
         }
     }
 }
