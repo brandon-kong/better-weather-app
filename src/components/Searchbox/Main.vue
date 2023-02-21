@@ -31,6 +31,8 @@
     .searchbox-input:focus {
         outline: none;
         opacity: 1;
+
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
     }
 
     .searchbox-input::placeholder {

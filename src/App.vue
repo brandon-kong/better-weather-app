@@ -1,19 +1,18 @@
 <template>
-    <router-view/>
-    <footer>
-        <p>
-            For a guide and recipes on how to configure / customize this project,<br>
-            check out the
-            <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-        </p>
-    </footer>
+    <div class="container">
+        <router-view v-slot="{ Component }" >
+            <transition name="fade" mode="out-in">
+                <component :is="Component" :key="$route.path" />
+            </transition>
+        </router-view>
+    </div>
 </template>
 
 <style>
 
 :root {
     --color-primary: #a24ab0;
-    --color-primary-dark: #883c94;
+    --color-primary-dark: #9543a1;
 
     --small-screens-width: 1000px;
 
@@ -37,7 +36,7 @@ svg img {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     box-sizing: border-box;
-    background-color: #ddd;
+    background-color: #fff;
     color: #000;
     padding: 0;
     margin: 0;
@@ -65,6 +64,15 @@ nav a {
     src: url('~@/assets/fonts/Lato-Bold.ttf');
     font-weight: 400;
 }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .75s ease, transform 1s ease;
+    }
+
+    .fade-enter-from, .fade-leave-to {
+        opacity: 0;
+        transform: translateY(30%);
+    }
 
 </style>
 

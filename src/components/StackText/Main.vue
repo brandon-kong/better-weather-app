@@ -4,7 +4,7 @@
         <h1 class="stack-title">{{ title }}</h1>
         <h2 class="stack-subtitle">{{ subtitle }}</h2>
         <p class="stack-text">{{ text }}</p>
-        <Button class="cta-button" onclick="">{{ call_to_action }}</Button>
+        <RouterButton class="cta-button" :to="to">{{ call_to_action }}</RouterButton>
     </div>
 </template>
 
@@ -58,6 +58,7 @@
     }
 
     .cta-button {
+        font-weight: 500;
         margin-top: 1rem;
     }
 
@@ -65,13 +66,13 @@
 
 <script>
 
-import Button from '@/components/Home/Button.vue'
+import RouterButton from '@/components/Home/RouterButton.vue'
 
 export default {
     name: 'StackText',
 
     components: {
-        Button
+        RouterButton
     },
 
     props: {
@@ -94,6 +95,10 @@ export default {
         call_to_action: {
             type: String,
             default: 'Get Started'
+        },
+        to: {
+            type: String,
+            default: '/'
         }
     }
 }

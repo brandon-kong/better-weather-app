@@ -1,57 +1,59 @@
 <template>
-    <div class="container">
-        <div class="grid-item home-left">
-            <div class="mini-navbar left">
-                <img draggable="false" class="logo" src="@/assets/logo.png" alt="logo" width="80" />
-                <font-awesome-icon class="hamburger-icon" icon="fa-solid fa-bars"></font-awesome-icon>
+    <div class="wrapper">
+        <div class="container">
+            <div class="grid-item home-left">
+                <div class="mini-navbar left">
+                    <img draggable="false" class="logo" src="@/assets/logo.png" alt="logo" width="80" />
+                    <font-awesome-icon class="hamburger-icon" icon="fa-solid fa-bars"></font-awesome-icon>
+                </div>
+                <div class="stack-holder-center">
+                    <StackText class="stack-text"
+                        status="Home"
+                        title="Weather App Made With Vue.js"
+                        subtitle="Easy and extensive"
+                        text="This is a simple weather app that uses the OpenWeatherMap API to get the weather for your location. It also uses the IP Geolocation API to get your location. This app was made using Vue.js and Tailwind CSS."
+                        to="/about"
+                        />
+                </div>
             </div>
-            <div class="stack-holder-center">
-                <StackText class="stack-text"
-                    status="New"
-                    title="Weather App Made With Vue.js"
-                    subtitle="Easy and extensive"
-                    text="This is a simple weather app that uses the OpenWeatherMap API to get the weather for your location. It also uses the IP Geolocation API to get your location. This app was made using Vue.js and Tailwind CSS."
-                />
+            <div class="grid-item home-right">
+                <div class="mini-navbar right">
+                    <Searchbox />
+                    <IconList />
+                </div>
+                <div class="stack-holder-center">
+                    <img draggable="false" class="hero-img" src="@/assets/cloud.svg" alt="hero" />
+                </div>
             </div>
         </div>
-        <div class="grid-item home-right">
-            <div class="mini-navbar right">
-                <Searchbox />
-                <IconList />
+        <div class="home">
+            <div v-if="location === null && loading === false">
+                <p>Get the weather?</p>
+                <Button v-on:click="getWeather">Get Weather</Button>
             </div>
-            <div class="stack-holder-center">
-                <img draggable="false" class="hero-img" src="@/assets/cloud.svg" alt="hero" />
+            <div v-else-if="location === null && loading === true">
+                <p>Loading...</p>
             </div>
-        </div>
-    </div>
-    <div class="home">
-        <div v-if="location === null && loading === false">
-            <p>Get the weather?</p>
-            <Button v-on:click="getWeather">Get Weather</Button>
-        </div>
-        <div v-else-if="location === null && loading === true">
-            <p>Loading...</p>
-        </div>
-        <div v-else>
-            <p>Weather for {{ location.city }}, {{ location.region }}</p>
-            <p>Current Temp: {{ clientWeather.currentTemp }}°F</p>
-            <p>Feels Like: {{ clientWeather.apparentTemp }}°F</p>
-            <p>Humidity: {{ location.humidity }}%</p>
-            <p>Wind Speed: {{ location.windSpeed }} mph</p>
-            <p>Wind Direction: {{ location.windDirection }}</p>
-            <p>Weather: {{ location.weather }}</p>
-            <p>Weather Description: {{ location.weatherDescription }}</p>
-            <p>Weather Icon: {{ location.weatherIcon }}</p>
-            <p>Weather Icon URL: {{ location.weatherIconUrl }}</p>
+            <div v-else>
+                <p>Weather for {{ location.city }}, {{ location.region }}</p>
+                <p>Current Temp: {{ clientWeather.currentTemp }}°F</p>
+                <p>Feels Like: {{ clientWeather.apparentTemp }}°F</p>
+                <p>Humidity: {{ location.humidity }}%</p>
+                <p>Wind Speed: {{ location.windSpeed }} mph</p>
+                <p>Wind Direction: {{ location.windDirection }}</p>
+                <p>Weather: {{ location.weather }}</p>
+                <p>Weather Description: {{ location.weatherDescription }}</p>
+                <p>Weather Icon: {{ location.weatherIcon }}</p>
+                <p>Weather Icon URL: {{ location.weatherIconUrl }}</p>
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
 
-    body {
-        background-color: #000;
-        color: #fff;
+    .wrapper {
+        padding: 10px
     }
 
     .container {
@@ -60,7 +62,6 @@
         grid-template-rows: 800px;
 
         transition: all 0.5s ease;
-        background: linear-gradient(180deg, rgba(225,208,228,1) 0%, rgba(234,218,236,1) 5%, rgba(255,255,255,1) 12%, rgba(255,255,255,1) 39%, rgba(255,255,255,1) 61%);
     }
 
     .logo {

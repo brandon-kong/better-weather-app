@@ -1,7 +1,7 @@
 <template>
-    <button :on-click="onclick" class="button">
+    <router-link :to="to" class="button">
         <slot></slot>
-    </button>
+    </router-link>
 </template>
 
 <style>
@@ -15,6 +15,9 @@
         cursor: pointer;
         transition: all 0.3s ease;
         text-decoration: none;
+
+        width: fit-content;
+        display: block;
     }
 
     .button:hover {
@@ -27,11 +30,11 @@
 <script>
 
 export default {
-    name: 'ButtonComponent',
+    name: 'RouterButton',
     props: {
-        onclick: {
-            type: Function,
-            default: () => {}
+        to: {
+            type: String,
+            default: '/'
         }
     }
 }

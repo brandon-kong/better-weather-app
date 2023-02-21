@@ -1,7 +1,7 @@
 <template>
     <nav class="container">
         <div class="nav-container">
-            <h1 class="title">Weather</h1>
+            <img draggable="false" class="logo" src="@/assets/logo.png" alt="logo" width="80" />
             <form @submit.stop.prevent="submit" class="search-form">
                 <Searchbox v-model="search"/>
             </form>
@@ -17,8 +17,6 @@
         padding-top: 20px;
         background: rgba(151, 149, 149, 0);
 
-        position: absolute;
-        top: 0px;
         width: 100%;
     }
 
