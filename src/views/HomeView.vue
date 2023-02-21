@@ -109,6 +109,19 @@
         }
     }
 
+    @media (max-width: 768px) {
+        .container {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+        }
+
+        .home-right {
+            grid-column-start: 1;
+            grid-row-start: 2;
+            grid-row-end: 2;
+        }
+    }
+
     .grid-item {
         padding: 2rem;
         grid-row-start: 1;
