@@ -6,12 +6,18 @@
 
 <style>
     .button {
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 6px 12px;
+        background-color: var(--color-primary);
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        padding: 10px 25px;
         font-size: 1rem;
         cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: var(--color-primary-dark);
     }
 </style>
 

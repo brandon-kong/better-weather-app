@@ -2,7 +2,7 @@
     <div class="container">
         <div class="grid-item home-left">
             <div class="mini-navbar left">
-                <img class="logo" src="@/assets/logo.png" alt="logo" width="80" />
+                <img draggable="false" class="logo" src="@/assets/logo.png" alt="logo" width="80" />
                 <font-awesome-icon class="hamburger-icon" icon="fa-solid fa-bars"></font-awesome-icon>
             </div>
             <div class="stack-holder-center">
@@ -20,7 +20,7 @@
                 <IconList />
             </div>
             <div class="stack-holder-center">
-                <img class="hero-img" src="@/assets/weather.svg" alt="hero" />
+                <img draggable="false" class="hero-img" src="@/assets/cloud.svg" alt="hero" />
             </div>
         </div>
     </div>
@@ -60,6 +60,7 @@
         grid-template-rows: 800px;
 
         transition: all 0.5s ease;
+        background: linear-gradient(180deg, rgba(225,208,228,1) 0%, rgba(234,218,236,1) 5%, rgba(255,255,255,1) 12%, rgba(255,255,255,1) 39%, rgba(255,255,255,1) 61%);
     }
 
     .logo {
@@ -97,6 +98,8 @@
 
         .stack-text {
             width: 20rem;
+            align-items: center;
+            text-align: center;
         }
 
         .mini-navbar.right {
@@ -133,8 +136,9 @@
     }
 
     .home-right {
-        background-color: #111111;
+        background-color: #f1f1f1;
         color: #fff;
+
         background-size: cover;
         background-repeat: no-repeat;
     }
@@ -157,7 +161,6 @@
     .stack-text {
         width: 70%;
         max-width: 500px;
-
         transition: all 0.5s ease;
     }
 
@@ -187,6 +190,15 @@ export default {
         Searchbox,
         IconList,
         StackText
+    },
+
+    watch: {
+        $route: {
+            immediate: true,
+            handler (to, from) {
+                document.title = to.meta.title || 'Weather App'
+            }
+        }
     },
 
     created () {

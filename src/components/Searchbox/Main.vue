@@ -19,22 +19,22 @@
         padding: 6px 2rem;
         font-size: .9rem;
         text-align: center;
-        border: 1px solid #a4a4a4;
+        border: 1px solid #000;
         background: none;
         border-radius: 5px;
-        color: #ffffff;
-        opacity: 0.3;
+        color: #000;
+        opacity: 0.6;
 
         transition: all 0.3s ease;
     }
 
     .searchbox-input:focus {
         outline: none;
-        opacity: .7;
+        opacity: 1;
     }
 
     .searchbox-input::placeholder {
-        color: #fff;
+        color: #000;
     }
 </style>
 <script>

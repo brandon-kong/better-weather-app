@@ -13,6 +13,10 @@
 
 :root {
     --color-primary: #a24ab0;
+    --color-primary-dark: #883c94;
+
+    --small-screens-width: 1000px;
+
 }
 * {
     margin: 0;
@@ -20,12 +24,21 @@
     box-sizing: border-box;
 }
 
+svg img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
 #app {
     font-family: 'Lato', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     box-sizing: border-box;
-    color: #fff;
+    background-color: #ddd;
+    color: #000;
     padding: 0;
     margin: 0;
 }
