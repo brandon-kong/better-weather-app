@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 // Specific icons
 import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 // State management
 import { createPinia } from 'pinia'
@@ -18,7 +19,7 @@ const pinia = createPinia()
 const app = createApp(App)
 
 // Adding icons to the library
-library.add(faGithub, faTwitter)
+library.add(faGithub, faTwitter, faBars)
 
 // Mounting the app
 app.use(router)
