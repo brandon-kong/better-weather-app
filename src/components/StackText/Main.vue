@@ -35,23 +35,26 @@
 
     .stack-title {
         font-size: 2.5rem;
-        font-weight: 500;
+        font-weight: 700;
         color: #000;
         line-height: 1.1;
+        width: 20rem;
     }
 
     .stack-subtitle {
         font-size: 1.5rem;
-        font-weight: 600;
-        color: #a4a4a4;
+        font-weight: 700;
+        color: #303030;
         line-height: 1.1;
     }
 
     .stack-text {
         font-size: 1.3rem;
-        font-weight: 300;
+        font-weight: 100;
         color: #a4a4a4;
         line-height: 1.2;
+
+        max-width: 25rem;
     }
 
 </style>

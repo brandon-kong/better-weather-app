@@ -58,6 +58,8 @@
         display: grid;
         grid-template-columns: 5fr 6fr;
         grid-template-rows: 800px;
+
+        transition: all 0.5s ease;
     }
 
     .logo {
@@ -73,6 +75,7 @@
 
     @media only screen and (max-width: 1000px) {
         .container {
+            display: block;
             grid-template-columns: 1fr;
             grid-template-rows: 600px 600px;
         }
@@ -141,12 +144,21 @@
         justify-content: center;
         align-items: center;
         height: calc(100% - 60px);
+
+        padding: 6rem 0;
     }
 
     .hero-img {
         width: 90%;
         height: 100%;
         object-fit: contain;
+    }
+
+    .stack-text {
+        width: 70%;
+        max-width: 500px;
+
+        transition: all 0.5s ease;
     }
 
 </style>

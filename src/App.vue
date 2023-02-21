@@ -38,16 +38,19 @@ nav a {
 @font-face {
     font-family: 'Lato', sans-serif;
     src: url('~@/assets/fonts/Lato-Regular.ttf');
+    font-weight: 300;
 }
 
 @font-face {
     font-family: 'Lato Light', sans-serif;
-    src: url('~@/assets/fonts/Lato-Light.ttf');
+    src: url('~@/assets/fonts/Lato-Thin.ttf');
+    font-weight: 100;
 }
 
 @font-face {
     font-family: 'Lato Bold', sans-serif;
     src: url('~@/assets/fonts/Lato-Bold.ttf');
+    font-weight: 400;
 }
 
 </style>
