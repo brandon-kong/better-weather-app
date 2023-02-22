@@ -1,7 +1,7 @@
 <template>
     <nav class="container">
         <div class="nav-container">
-            <IconNav />
+            <IconNav :isWhite="isWhite" />
             <form @submit.stop.prevent="submit" class="search-form">
                 <Searchbox v-model="search" class="search-box"/>
             </form>
@@ -67,6 +67,13 @@ export default {
         return {
             search: '',
             msg: 'Welcome to Your Vue.js App'
+        }
+    },
+
+    props: {
+        isWhite: {
+            type: Boolean,
+            default: false
         }
     },
 

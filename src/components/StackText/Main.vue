@@ -31,7 +31,6 @@
         font-size: 1.3;
         font-weight: 600;
         color: var(--color-primary);
-        background-color: white;
     }
 
     .stack-title {

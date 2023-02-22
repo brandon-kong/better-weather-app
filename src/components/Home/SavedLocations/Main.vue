@@ -36,7 +36,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        min-height: 300px;
 
         gap: 2rem;
         padding: 50px 0;

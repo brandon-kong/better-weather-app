@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="main-container">
         <router-view v-slot="{ Component }" >
             <transition name="fade" mode="out-in">
                 <component :is="Component" :key="$route.path" />
@@ -25,6 +25,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
 svg img {
@@ -84,6 +89,12 @@ nav a {
     font-family: 'Mulish';
     src: url('~@/assets/fonts/Mulish/Mulish-Light.ttf');
     font-weight: 200;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: url('~@/assets/fonts/Mulish/Mulish-ExtraBold.ttf');
+    font-weight: 700;
 }
 
     .fade-enter-active, .fade-leave-active {

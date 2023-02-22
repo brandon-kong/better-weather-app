@@ -8,7 +8,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 // Specific icons
-import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
+import { faGithub, faTwitter, faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 // Firebase
@@ -23,7 +23,7 @@ const pinia = createPinia()
 const app = createApp(App)
 
 // Adding icons to the library
-library.add(faGithub, faTwitter, faBars)
+library.add(faGithub, faTwitter, faBars, faGoogle)
 
 // Initialize Firebase
 
