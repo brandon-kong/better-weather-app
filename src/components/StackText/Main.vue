@@ -58,7 +58,6 @@
     }
 
     .cta-button {
-        font-weight: 500;
         margin-top: 1rem;
     }
 

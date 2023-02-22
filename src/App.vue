@@ -5,6 +5,7 @@
                 <component :is="Component" :key="$route.path" />
             </transition>
         </router-view>
+        <button v-if="loggedIn" @click="logout">Logout</button>
     </div>
 </template>
 
@@ -13,6 +14,8 @@
 :root {
     --color-primary: #a24ab0;
     --color-primary-dark: #9543a1;
+
+    --font-normal: 'Mulish', sans-serif;
 
     --small-screens-width: 1000px;
     --hamburger-icon-size: 2rem;
@@ -33,7 +36,7 @@ svg img {
 }
 
 #app {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Mulish', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     box-sizing: border-box;
@@ -66,25 +69,67 @@ nav a {
     font-weight: 400;
 }
 
+@font-face {
+    font-family: 'Mulish';
+    src: url('~@/assets/fonts/Mulish/Mulish-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: url('~@/assets/fonts/Mulish/Mulish-Bold.ttf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Mulish';
+    src: url('~@/assets/fonts/Mulish/Mulish-Light.ttf');
+    font-weight: 200;
+}
+
     .fade-enter-active, .fade-leave-active {
         transition: opacity .75s ease, transform 1s ease;
     }
 
     .fade-enter-from, .fade-leave-to {
         opacity: 0;
-        transform: translateY(30%);
     }
 
 </style>
 
 <script>
 
-// States
-// import Navbar from './components/Navbar/Main.vue'
-
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
 export default {
     name: 'App',
     components: {
+    },
+
+    mounted () {
+        const auth = getAuth()
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                this.loggedIn = true
+            } else {
+                this.loggedIn = false
+            }
+        })
+    },
+
+    data () {
+        return {
+            loggedIn: false
+        }
+    },
+
+    methods: {
+        logout () {
+            const auth = getAuth()
+            signOut(auth).then(() => {
+                this.$router.push('/login')
+            }).catch((error) => {
+                console.log(error)
+            })
+        }
     }
 }
 </script>

@@ -12,7 +12,7 @@
                         title="Weather App Made With Vue.js"
                         subtitle="Easy and extensive"
                         text="This is a simple weather app that uses the OpenWeatherMap API to get the weather for your location. It also uses the IP Geolocation API to get your location. This app was made using Vue.js and Tailwind CSS."
-                        to="/about"
+                        to="/register"
                         />
                 </div>
             </div>
@@ -27,6 +27,7 @@
             </div>
         </div>
         <div class="home">
+            <SavedLocations />
             <div v-if="location === null && loading === false">
                 <p>Get the weather?</p>
                 <Button v-on:click="getWeather">Get Weather</Button>
@@ -144,6 +145,7 @@
     .home-left {
         background-color: #fff;
         color: #000;
+        border-bottom: 1px solid #f1f1f1;
     }
 
     .home-right {
@@ -186,6 +188,7 @@ import Button from '@/components/Home/Button.vue'
 import Searchbox from '@/components/Searchbox/Main.vue'
 import IconList from '@/components/IconList/Main.vue'
 import StackText from '@/components/StackText/Main.vue'
+import SavedLocations from '@/components/Home/SavedLocations/Main.vue'
 
 export default {
     name: 'HomeView',
@@ -203,7 +206,8 @@ export default {
         Searchbox,
         IconList,
         StackText,
-        IconNav
+        IconNav,
+        SavedLocations
     },
 
     watch: {

@@ -15,6 +15,7 @@
         cursor: pointer;
         transition: all 0.3s ease;
         text-decoration: none;
+        font-weight: 400;
 
         width: fit-content;
         display: block;
