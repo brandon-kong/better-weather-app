@@ -38,7 +38,8 @@
                         <input autocomplete="off" class="input-container password-input input" type="password" placeholder="Password" readonly onfocus="this.removeAttribute('readonly');" v-model="password"/>
                         <input autocomplete="off" class="input-container submit-input" type="submit" value="Create Account" @click="register"/>
                     </form>
-                    <p>Already have an account? <router-link to="/login">Sign in</router-link></p>
+                    <p>By creating an account, you agree to the <router-link to="/" class="to-link">Terms and Conditions</router-link> and <router-link to="/" class="to-link">Privacy Policy</router-link></p>
+                    <p>Already have an account? <router-link class="to-link" to="/login">Sign in</router-link></p>
                     <p v-if="error" class="error">{{ error }}</p>
                 </div>
             </div>
@@ -54,9 +55,9 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        width: 10rem;
         margin: auto;
         gap: 1rem;
+        margin: 0;
     }
     .form-element {
         display: block;
@@ -170,7 +171,7 @@
 
         font-size: 1rem;
         font-weight: 400;
-        transition: all 0.3s ease;
+        transition: all 0.1s ease;
     }
 
     .google-text {
@@ -230,18 +231,22 @@
         font-weight: 400;
     }
 
+    .to-link {
+        color: var(--color-primary);
+    }
+
 </style>
 
 <script>
 
 // Authentication
+import { firebaseApp, addUser } from '@/firebase'
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 
 // Components
 import Navbar from '@/components/Navbar/Main.vue'
 import IconNav from '@/components/Home/IconNav.vue'
 import Searchbox from '@/components/Searchbox/Main.vue'
-import StackText from '@/components/StackText/Main.vue'
 import IconList from '@/components/IconList/Main.vue'
 import PopupLogin from '@/components/Register/PopupLogin.vue'
 
@@ -255,7 +260,6 @@ export default {
         Navbar,
         IconNav,
         Searchbox,
-        StackText,
         IconList,
         PopupLogin
     },
@@ -270,8 +274,14 @@ export default {
 
     methods: {
         register () {
-            createUserWithEmailAndPassword(getAuth(), this.email, this.password)
+            createUserWithEmailAndPassword(getAuth(firebaseApp), this.email, this.password)
                 .then((userCredential) => {
+                    // Signed in
+                    const user = addUser(userCredential.user.uid, {
+                        email: this.email,
+                        savedLocations: []
+                    })
+                    console.log(user)
                     this.$router.push('/')
                 })
                 .catch((error) => {
@@ -300,7 +310,7 @@ export default {
 
         signInWithGoogle () {
             const provider = new GoogleAuthProvider()
-            signInWithPopup(getAuth(), provider)
+            signInWithPopup(getAuth(firebaseApp), provider)
                 .then((result) => {
                     this.$router.push('/')
                 })

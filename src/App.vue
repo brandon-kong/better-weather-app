@@ -109,19 +109,24 @@ nav a {
 
 <script>
 
+import { firebaseApp } from '@/firebase'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
+
 export default {
     name: 'App',
     components: {
     },
 
     mounted () {
-        const auth = getAuth()
+        const auth = getAuth(firebaseApp)
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.loggedIn = true
             } else {
                 this.loggedIn = false
+            }
+            if ((this.$route.path === '/login' || this.$route.path === '/register') && this.loggedIn) {
+                this.$router.push('/')
             }
         })
     },
@@ -136,7 +141,7 @@ export default {
         logout () {
             const auth = getAuth()
             signOut(auth).then(() => {
-                this.$router.push('/login')
+                this.$router.push('/register')
             }).catch((error) => {
                 console.log(error)
             })
