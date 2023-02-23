@@ -14,7 +14,7 @@
     </div>
 </template>
 
-<style scoped>
+<style>
 .searchbar-container {
     display: flex;
     justify-content: center;
@@ -36,7 +36,13 @@
 }
 
 .geoapify-autocomplete-input {
-
+    width: 50%;
+    height: 2rem;
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 1.4rem 2rem;
+    font-size: 1.4rem;
+    outline: none;
 }
 
 </style>
@@ -45,8 +51,7 @@
 
 import Navbar from '@/components/Navbar/Main.vue'
 
-import { GetAutocompleteQuery, apiKey } from '@/geocoder'
-import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete'
+import { GetAutocompleteQuery } from '@/geocoder'
 
 export default {
     name: 'SearchView',
@@ -61,23 +66,6 @@ export default {
             error: '',
             query: []
         }
-    },
-
-    mounted () {
-        console.log('hi')
-        const autocompleteInput = new GeocoderAutocomplete(
-            document.getElementById('searchbar-container'),
-            apiKey,
-            { /* Geocoder options */ })
-
-        autocompleteInput.on('select', (location) => {
-        // check selected location here
-        })
-
-        autocompleteInput.on('suggestions', (suggestions) => {
-        // process suggestions here
-            console.log(suggestions)
-        })
     },
 
     methods: {
