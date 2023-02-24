@@ -4,13 +4,19 @@
         <div class="searchbar-container">
             <input class="searchbar autocomplete geoapify-autocomplete-input" type="text" placeholder="Search Locations"
             v-model="search" @input="searchLocations"
-            @focusout="focusLost"
             @focus="focusIn"
+            @keydown.down="onArrowDown"
+            @keydown.up="onArrowUp"
             />
-            <div v-if="query.length > 0" class="search-container">
+            <div v-show="isOpen" class="search-container">
                 <ul class="search-list">
-                    <li v-for="location in query" :key="location.id" class="search-suggestion" @click="selectionMade">
-                        {{ location.properties.address_line1 }}, {{ location.properties.state_code }} {{ location.properties.postal_code }} {{ location.properties.country }}
+                    <li v-for="(result, i) in query" :key="i"
+                        :class="{ 'is-active': i === arrowIndex }"
+                        class="search-suggestion"
+                        @click="setResult(result)"
+                        @mouseover="setArrowIndex(i)"
+                        >
+                        {{ result.properties.formatted }}
                     </li>
                 </ul>
             </div>
@@ -58,7 +64,7 @@
     transition: all 0.1s ease;
 }
 
-.search-suggestion:hover {
+.is-active {
     background-color: var(--color-primary);
     color: white;
 }
@@ -82,7 +88,9 @@ export default {
         return {
             search: '',
             error: '',
-            query: []
+            query: [],
+            isOpen: false,
+            arrowIndex: 0
         }
     },
 
@@ -90,6 +98,7 @@ export default {
         async searchLocations () {
             if (this.search.length < 3) {
                 this.query = []
+                this.styleBar()
                 return
             }
             GetAutocompleteQuery(this.search, this.formatQuery)
@@ -98,15 +107,17 @@ export default {
         formatQuery (query) {
             if (query == null) {
                 this.query = []
+                this.isOpen = false
                 return
             }
             this.query = query.features
+            this.isOpen = true
             this.styleBar()
         },
 
         styleBar () {
             const bar = document.querySelector('.searchbar')
-            if (this.query.length > 0) {
+            if (this.isOpen) {
                 bar.style.borderRadius = '5px 5px 0px 0px'
                 bar.style.borderBottom = 'none'
             } else {
@@ -130,9 +141,34 @@ export default {
             suggestions.style.display = 'none'
         },
 
-        selectionMade (selection) {
-            this.search = selection
+        setResult (result) {
+            this.search = result.properties.formatted
+            this.isOpen = false
             this.focusLost()
+        },
+
+        onArrowDown () {
+            if (this.arrowIndex === this.query.length - 1) {
+                this.arrowIndex = 0
+            } else {
+                this.arrowIndex++
+            }
+        },
+
+        onArrowUp () {
+            if (this.arrowIndex === 0) {
+                this.arrowIndex = this.query.length - 1
+            } else {
+                this.arrowIndex--
+            }
+        },
+
+        setArrowIndex (i) {
+            this.arrowIndex = i
+        },
+
+        forceSearch () {
+            this.$router.push({ name: 'Search', params: { search: this.search } })
         }
     }
 }
