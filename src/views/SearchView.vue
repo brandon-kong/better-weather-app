@@ -6,6 +6,8 @@
             v-model="search" @input="searchLocations"
             @focusout="focusLost"
             @focus="focusIn"
+            @arrowup="arrowUp"
+            @arrowdown="arrowDown"
             />
             <div v-if="query.length > 0" class="search-container">
                 <ul class="search-list">
@@ -82,7 +84,8 @@ export default {
         return {
             search: '',
             error: '',
-            query: []
+            query: [],
+            arrowIndex: -1
         }
     },
 
@@ -133,6 +136,22 @@ export default {
         selectionMade (selection) {
             this.search = selection
             this.focusLost()
+        },
+
+        arrowUp () {
+            if (this.arrowIndex > 0) {
+                this.arrowIndex--
+            }
+            if (this.arrowIndex < 0) {
+                this.arrowIndex = this.query.length - 1
+            }
+        },
+
+        arrowDown () {
+            this.arrowIndex++
+            if (this.arrowIndex > this.query.length - 1) {
+                this.arrowIndex = 0
+            }
         }
     }
 }
