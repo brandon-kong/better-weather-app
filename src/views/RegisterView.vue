@@ -242,6 +242,7 @@
 // Authentication
 import { firebaseApp, addUser } from '@/firebase'
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { useUserStore } from '@/stores/UserStore'
 
 // Components
 import Navbar from '@/components/Navbar/Main.vue'
@@ -252,6 +253,9 @@ import PopupLogin from '@/components/Register/PopupLogin.vue'
 
 // Constants
 const errorTimer = 5 // seconds
+
+const userStore = useUserStore()
+console.log(userStore)
 
 export default {
     name: 'RegisterView',

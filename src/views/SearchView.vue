@@ -1,18 +1,27 @@
 <template>
     <div>
         <Navbar />
-        <div class="searchbar-container">
-            <input class="searchbar autocomplete geoapify-autocomplete-input" type="text" placeholder="Search Locations"
-            v-model="search" @input="searchLocations"
-            @focusout="focusLost"
-            @focus="focusIn"
-            @arrowup="arrowUp"
-            @arrowdown="arrowDown"
-            />
-            <div v-if="query.length > 0" class="search-container">
+        <div class="">
+            <form class="searchbar-container">
+                <input class="searchbar autocomplete geoapify-autocomplete-input" type="text" placeholder="Search Locations"
+                v-model="search" @input="searchLocations"
+                @focus="focusIn"
+                @keydown.down="onArrowDown"
+                @keydown.up="onArrowUp"
+                @keydown.enter="onEnter"
+                name="search"
+                autocomplete="off"
+                />
+            </form>
+            <div v-show="isOpen" class="search-container">
                 <ul class="search-list">
-                    <li v-for="location in query" :key="location.id" class="search-suggestion" @click="selectionMade">
-                        {{ location.properties.address_line1 }}, {{ location.properties.state_code }} {{ location.properties.postal_code }} {{ location.properties.country }}
+                    <li v-for="(result, i) in query" :key="i"
+                        :class="{ 'is-active': i === arrowIndex }"
+                        class="search-suggestion"
+                        @click="setResult(result)"
+                        @mouseover="setArrowIndex(i)"
+                        >
+                        {{ result.properties.formatted }}
                     </li>
                 </ul>
             </div>
@@ -36,7 +45,16 @@
     padding: 1.4rem 2rem;
     font-size: 1.4rem;
     outline: none;
+    opacity: 0.6;
+    transition: all 0.3s ease;
 }
+
+.searchbar:focus {
+        outline: none;
+        opacity: 1;
+
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    }
 
 .search-container {
     color: black;
@@ -60,7 +78,7 @@
     transition: all 0.1s ease;
 }
 
-.search-suggestion:hover {
+.is-active {
     background-color: var(--color-primary);
     color: white;
 }
@@ -85,7 +103,9 @@ export default {
             search: '',
             error: '',
             query: [],
-            arrowIndex: -1
+            isOpen: false,
+            arrowIndex: 0,
+            resultObj: {}
         }
     },
 
@@ -93,23 +113,27 @@ export default {
         async searchLocations () {
             if (this.search.length < 3) {
                 this.query = []
+                this.styleBar()
                 return
             }
+            this.resultObj = {}
             GetAutocompleteQuery(this.search, this.formatQuery)
         },
 
         formatQuery (query) {
             if (query == null) {
                 this.query = []
+                this.isOpen = false
                 return
             }
             this.query = query.features
+            this.isOpen = true
             this.styleBar()
         },
 
         styleBar () {
             const bar = document.querySelector('.searchbar')
-            if (this.query.length > 0) {
+            if (this.isOpen) {
                 bar.style.borderRadius = '5px 5px 0px 0px'
                 bar.style.borderBottom = 'none'
             } else {
@@ -133,24 +157,50 @@ export default {
             suggestions.style.display = 'none'
         },
 
-        selectionMade (selection) {
-            this.search = selection
+        setResult (result) {
+            this.search = result.properties.formatted
+            this.resultObj = result
+            this.isOpen = false
             this.focusLost()
+
+            this.forceSearchResult()
         },
 
-        arrowUp () {
-            if (this.arrowIndex > 0) {
+        onArrowDown () {
+            if (this.arrowIndex === this.query.length - 1) {
+                this.arrowIndex = 0
+            } else {
+                this.arrowIndex++
+            }
+        },
+
+        onArrowUp () {
+            if (this.arrowIndex === 0) {
+                this.arrowIndex = this.query.length - 1
+            } else {
                 this.arrowIndex--
             }
-            if (this.arrowIndex < 0) {
-                this.arrowIndex = this.query.length - 1
-            }
         },
 
-        arrowDown () {
-            this.arrowIndex++
-            if (this.arrowIndex > this.query.length - 1) {
-                this.arrowIndex = 0
+        onEnter () {
+            this.setResult(this.query[this.arrowIndex])
+        },
+
+        setArrowIndex (i) {
+            this.arrowIndex = i
+        },
+
+        forceSearch () {
+            this.$router.push({ name: 'results', params: { search: this.search } })
+        },
+
+        forceSearchResult () {
+            if (this.resultObj.properties == null) {
+                this.forceSearch()
+            } else {
+                console.log('hi')
+                // the result object is not null, so redirect to actual weather page
+                this.$router.push({ name: 'weather', params: { lat: this.resultObj.geometry.coordinates[1], lon: this.resultObj.geometry.coordinates[0] } })
             }
         }
     }

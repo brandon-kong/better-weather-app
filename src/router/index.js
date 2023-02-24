@@ -49,6 +49,14 @@ const routes = [
     },
 
     {
+        path: '/weather/:lat:lon',
+        name: 'weather',
+
+        component: () => import('@/views/WeatherView.vue'),
+        meta: { requiresAuth: false }
+    },
+
+    {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
         // route level code-splitting

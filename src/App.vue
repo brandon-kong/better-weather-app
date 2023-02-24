@@ -21,6 +21,16 @@
     --hamburger-icon-size: 2rem;
 
 }
+
+::selection {
+  background: var(--color-primary);
+  color: white;
+}
+::-moz-selection {
+    background: var(--color-primary);
+    color: white;
+}
+
 * {
     margin: 0;
     padding: 0;
