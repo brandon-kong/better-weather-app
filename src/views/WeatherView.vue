@@ -1,6 +1,6 @@
 <template>
     <div>
-        {{ $route.params.place }}
+        {{ $route.params.lat }} {{ $route.params.lon }}
     </div>
 </template>
 

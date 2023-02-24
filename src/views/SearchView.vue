@@ -200,7 +200,7 @@ export default {
             } else {
                 console.log('hi')
                 // the result object is not null, so redirect to actual weather page
-                this.$router.push({ name: 'home', params: { lat: this.resultObj.geometry.coordinates[1], lon: this.resultObj.geometry.coordinates[0] } })
+                this.$router.push({ name: 'weather', params: { lat: this.resultObj.geometry.coordinates[1], lon: this.resultObj.geometry.coordinates[0] } })
             }
         }
     }
