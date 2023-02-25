@@ -49,7 +49,7 @@ const routes = [
     },
 
     {
-        path: '/weather/:lat:lon',
+        path: '/weather',
         name: 'weather',
 
         component: () => import('@/views/WeatherView.vue'),

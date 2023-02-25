@@ -2,7 +2,7 @@
     <div>
         <Navbar />
         <div class="">
-            <form class="searchbar-container">
+            <form class="searchbar-container" v-on:submit.stop.prevent="forceSearchResult">
                 <input class="searchbar autocomplete geoapify-autocomplete-input" type="text" placeholder="Search Locations"
                 v-model="search" @input="searchLocations"
                 @focus="focusIn"
@@ -184,6 +184,7 @@ export default {
 
         onEnter () {
             this.setResult(this.query[this.arrowIndex])
+
         },
 
         setArrowIndex (i) {
@@ -198,9 +199,8 @@ export default {
             if (this.resultObj.properties == null) {
                 this.forceSearch()
             } else {
-                console.log('hi')
                 // the result object is not null, so redirect to actual weather page
-                this.$router.push({ name: 'weather', params: { lat: this.resultObj.geometry.coordinates[1], lon: this.resultObj.geometry.coordinates[0] } })
+                this.$router.push({ path: '/weather', query: { lat: this.resultObj.geometry.coordinates[1], lon: this.resultObj.geometry.coordinates[0], location: this.resultObj.properties.formatted } })
             }
         }
     }
