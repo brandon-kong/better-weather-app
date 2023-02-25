@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1>{{ location }}</h1>
+        <p> {{ weather }}</p>
 
         <router-link to="/search">Back</router-link>
     </div>
