@@ -19,7 +19,6 @@
         background: rgba(151, 149, 149, 0);
 
         width: 100%;
-        padding-bottom: 200px;
     }
 
     .nav-container {
