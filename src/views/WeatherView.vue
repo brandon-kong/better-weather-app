@@ -16,7 +16,6 @@
         <div class="weather-content">
             <div class="hourly-weather">
                 <p class="forecast-title">Hourly forecast</p>
-                
                 <div class="hourly-weather-item">
                     <ul class="hour-list">
                         <li class="hour-item" v-for="hour in weather.days[0].hours" :key="hour.datetime">
@@ -28,13 +27,10 @@
                 </div>
             </div>
             <div class="daily-forecast">
-
             </div>
         </div>
-    
         <router-link to="/search">Back</router-link>
         </div>
-        
     </div>
 </template>
 
@@ -143,7 +139,7 @@
 
 <script>
 
-import { GetWeatherQuery } from '@/weather';
+import { GetWeatherQuery } from '@/weather'
 
 import Navbar from '@/components/Navbar/Main.vue'
 
@@ -168,29 +164,29 @@ export default {
 
     methods: {
         getWeather (lat, lon) {
-            const query = GetWeatherQuery({ lat, lon }, this.weatherCallback);
+            GetWeatherQuery({ lat, lon }, this.weatherCallback)
         },
 
         weatherCallback (weather) {
             this.weather = weather
         },
 
-        getImgUrl(pic) {
-            return require('@/assets/weather/'+pic+'.svg')
+        getImgUrl (pic) {
+            return require('@/assets/weather/' + pic + '.svg')
         },
 
         getHour (datetime) {
-            let hour = datetime.split(':')[0]
+            const hour = datetime.split(':')[0]
             let hourInt = parseInt(hour)
             let ampm = 'AM'
             if (hourInt > 12) {
                 hourInt -= 12
                 ampm = 'PM'
             }
-            if (hourInt == 12) {
+            if (hourInt === 12) {
                 ampm = 'PM'
             }
-            if (hourInt == 0) {
+            if (hourInt === 0) {
                 hourInt = 12
             }
             return hourInt + ampm

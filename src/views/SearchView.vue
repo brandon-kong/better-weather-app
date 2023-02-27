@@ -184,7 +184,6 @@ export default {
 
         onEnter () {
             this.setResult(this.query[this.arrowIndex])
-
         },
 
         setArrowIndex (i) {
