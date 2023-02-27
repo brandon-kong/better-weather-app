@@ -34,7 +34,7 @@
                         </button>
                     </div>
                     <p>or</p>
-                    <form class="form-container" autocomplete="off" submit="register">
+                    <form class="form-container" autocomplete="off" @submit.prevent="register">
                         <input autocomplete="off" class="input-container email-input input" type="text" placeholder="Email Address" v-model="email"/>
                         <input autocomplete="off" class="input-container password-input input" type="password" placeholder="Password" readonly onfocus="this.removeAttribute('readonly');" v-model="password"/>
                         <input autocomplete="off" class="input-container submit-input" type="submit" value="Create Account" @click="register"/>
@@ -299,7 +299,6 @@
 // Authentication
 import { firebaseApp, addUser } from '@/firebase'
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-import { useUserStore } from '@/stores/UserStore'
 
 // Components
 import Navbar from '@/components/Navbar/Main.vue'
@@ -310,9 +309,6 @@ import PopupLogin from '@/components/Register/PopupLogin.vue'
 
 // Constants
 const errorTimer = 5 // seconds
-
-const userStore = useUserStore()
-console.log(userStore)
 
 export default {
     name: 'RegisterView',
@@ -335,6 +331,13 @@ export default {
 
     methods: {
         register () {
+            if (this.email === '' || this.password === '') {
+                this.error = 'Please fill all fields'
+                setTimeout(() => {
+                    this.error = ''
+                }, errorTimer * 1000)
+                return
+            }
             createUserWithEmailAndPassword(getAuth(firebaseApp), this.email, this.password)
                 .then((userCredential) => {
                     // Signed in
