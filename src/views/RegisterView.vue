@@ -16,6 +16,7 @@
             </div>
             <div class="grid-item home-right">
                 <div class="mini-navbar right">
+                    <IconNav class="right-nav"/>
                     <Searchbox />
                     <IconList />
                 </div>
@@ -48,6 +49,10 @@
 </template>
 
 <style scoped>
+
+    .wrapper {
+        overflow: hidden;
+    }
 
     .form-container {
         display: flex;
@@ -233,6 +238,58 @@
 
     .to-link {
         color: var(--color-primary);
+    }
+
+    .right-nav {
+        display: none;
+    }
+
+    @media screen and (max-width: 768px) {
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .right-nav {
+            display: block;
+        }
+
+        .home-left {
+            display: none;
+        }
+
+        .home-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stack-holder-center {
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .stack-text {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .left-title {
+            font-size: 2rem;
+        }
+
+        .left-subtitle {
+            font-size: 1rem;
+        }
+
+        .right-title {
+            font-size: 2rem;
+        }
+
+        .hamburger-icon {
+            display: block;
+        }
     }
 
 </style>

@@ -2,9 +2,7 @@
     <nav class="container">
         <div class="nav-container">
             <IconNav :isWhite="isWhite" />
-            <form @submit.stop.prevent="submit" class="search-form">
-                <Searchbox v-model="search" class="search-box"/>
-            </form>
+            <Searchbox v-show="showBar === true" class="search-box"/>
 
             <IconList class="icon-list"/>
             <font-awesome-icon class="hamburger-icon" icon="bars" />
@@ -73,6 +71,10 @@ export default {
         isWhite: {
             type: Boolean,
             default: false
+        },
+        showBar: {
+            type: Boolean,
+            default: true
         }
     },
 

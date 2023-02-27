@@ -1,13 +1,15 @@
 <template>
     <div class="searchbox">
-        <input
-            class="searchbox-input"
-            v-model="search"
-            type="text"
-            name="search"
-            placeholder="Search for a city"
-            autocomplete="off"
-        />
+        <form @submit.stop.prevent="submit" class="search-form">
+            <input
+                class="searchbox-input"
+                v-model="search"
+                type="text"
+                name="search"
+                placeholder="Search for a city"
+                autocomplete="off"
+            />
+        </form>
     </div>
 </template>
 
@@ -45,8 +47,13 @@ export default {
     name: 'SearchBox',
     data () {
         return {
-            search: '',
-            msg: 'Welcome to Your Vue.js App'
+            search: ''
+        }
+    },
+
+    methods: {
+        submit () {
+            this.$router.replace({ path: '/weather', query: { name: this.search } })
         }
     }
 }

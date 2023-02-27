@@ -1,10 +1,10 @@
 <template>
-    <div class="weather-wea">
+    <div class="weather" v-if="weather !== null">
         <Navbar />
         <div class="weather-container">
             <div class="weather-top">
             <div class="weather-top-left">
-                <h1 id="location">{{ location }}</h1>
+                <h1 id="location">{{ location || weather.resolvedAddress }}</h1>
                 <p id="chanceOfRain">Chance of rain: {{ weather.currentConditions.precip }}%</p>
 
                 <h1 id="temp"> {{ weather.currentConditions.temp }} °F</h1>
@@ -29,8 +29,11 @@
             <div class="daily-forecast">
             </div>
         </div>
-        <router-link to="/search">Back</router-link>
         </div>
+    </div>
+    <div v-else>
+        {{ error }}
+        <router-link to="/search">Back</router-link>
     </div>
 </template>
 
@@ -148,8 +151,9 @@ export default {
 
     data () {
         return {
-            weather: {},
-            location: null
+            weather: null,
+            location: null,
+            error: null
         }
     },
 
@@ -158,17 +162,35 @@ export default {
     },
 
     created () {
-        this.location = this.$route.query.location
-        this.getWeather(this.$route.query.lat, this.$route.query.lon)
+        this.queryWeather()
+    },
+
+    watch: {
+        '$route.query': 'queryWeather'
     },
 
     methods: {
-        getWeather (lat, lon) {
+        getWeather ({ lat, lon, name }) {
+            if (name !== undefined) {
+                GetWeatherQuery({ name }, this.weatherCallback)
+                return
+            }
             GetWeatherQuery({ lat, lon }, this.weatherCallback)
         },
 
-        weatherCallback (weather) {
-            this.weather = weather
+        weatherCallback (_, { data, error }) {
+            if (error) {
+                switch (error.code) {
+                case 'ECONNREFUSED':
+                    this.error = 'Could not connect to weather server'
+                    break
+                case 'ERR_BAD_REQUEST':
+                    this.error = 'Invalid location'
+                    break
+                default:
+                    this.error = error.message
+                }
+            } else this.weather = data
         },
 
         getImgUrl (pic) {
@@ -194,6 +216,15 @@ export default {
 
         getFormattedHour (datetime) {
             return datetime.split(':')[0]
+        },
+
+        queryWeather () {
+            this.location = this.$route.query.location
+            if (this.$route.query.name !== undefined) {
+                this.getWeather({ name: this.$route.query.name })
+            } else {
+                this.getWeather({ lat: this.$route.query.lat, lon: this.$route.query.lon })
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Navbar />
+        <Navbar showBar="false" />
         <div class="">
             <form class="searchbar-container" v-on:submit.stop.prevent="forceSearchResult">
                 <input class="searchbar autocomplete geoapify-autocomplete-input" type="text" placeholder="Search Locations"
@@ -191,7 +191,7 @@ export default {
         },
 
         forceSearch () {
-            this.$router.push({ name: 'results', params: { search: this.search } })
+            this.$router.replace({ path: '/weather', query: { name: this.search } })
         },
 
         forceSearchResult () {
