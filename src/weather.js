@@ -9,7 +9,6 @@ export const GetWeatherQuery = ({ lat, lon, name }, cb) => {
     } else {
         encoded = encodeURIComponent(name) + '?unitGroup=us&key=' + apiKey + '&contentType=json'
     }
-    console.log(encoded)
     axios({
         method: 'get',
         url: 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/' + encoded,

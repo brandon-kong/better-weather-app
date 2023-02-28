@@ -8,6 +8,7 @@
                 <p id="chanceOfRain">Chance of rain: {{ weather.currentConditions.precip }}%</p>
 
                 <h1 id="temp"> {{ weather.currentConditions.temp }} °F</h1>
+                <button @click="addToList(weather.latitude+','+weather.longitude)">Add to list</button>
             </div>
             <div class="weather-top-right">
                 <img draggable="false" class="weather-icon" v-bind:src="getImgUrl(weather.currentConditions.icon)" alt="weather icon">
@@ -143,8 +144,12 @@
 <script>
 
 import { GetWeatherQuery } from '@/weather'
-
 import Navbar from '@/components/Navbar/Main.vue'
+import { useUserStore } from '@/stores/UserStore'
+import { getAuth } from 'firebase/auth'
+import { firebaseApp } from '@/firebase'
+
+const userStore = useUserStore()
 
 export default {
     name: 'WeatherView',
@@ -224,6 +229,16 @@ export default {
                 this.getWeather({ name: this.$route.query.name })
             } else {
                 this.getWeather({ lat: this.$route.query.lat, lon: this.$route.query.lon })
+            }
+        },
+
+        addToList (id) {
+            const auth = getAuth(firebaseApp)
+            const user = auth.currentUser
+            if (user) {
+                userStore.addLocation(id)
+            } else {
+                alert('You must be logged in to add to your list')
             }
         }
     }

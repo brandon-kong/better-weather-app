@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Navbar showBar="false" />
+        <Navbar :showBar="false" />
         <div class="">
             <form class="searchbar-container" v-on:submit.stop.prevent="forceSearchResult">
                 <input class="searchbar autocomplete geoapify-autocomplete-input" type="text" placeholder="Search Locations"

@@ -296,16 +296,16 @@
 
 <script>
 
-// Authentication
-import { firebaseApp, addUser } from '@/firebase'
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
-
 // Components
 import Navbar from '@/components/Navbar/Main.vue'
 import IconNav from '@/components/Home/IconNav.vue'
 import Searchbox from '@/components/Searchbox/Main.vue'
 import IconList from '@/components/IconList/Main.vue'
 import PopupLogin from '@/components/Register/PopupLogin.vue'
+
+import { useUserStore } from '@/stores/UserStore'
+
+const userStore = useUserStore()
 
 // Constants
 const errorTimer = 5 // seconds
@@ -338,62 +338,26 @@ export default {
                 }, errorTimer * 1000)
                 return
             }
-            createUserWithEmailAndPassword(getAuth(firebaseApp), this.email, this.password)
-                .then((userCredential) => {
-                    // Signed in
-                    const user = addUser(userCredential.user.uid, {
-                        email: this.email,
-                        savedLocations: []
-                    })
-                    console.log(user)
-                    this.$router.push('/')
-                })
-                .catch((error) => {
-                    // const errorCode = error.code
-                    const errorMessage = error.message
-                    switch (error.code) {
-                    case 'auth/invalid-email':
-                        this.error = 'Invalid email'
-                        break
-                    case 'auth/email-already-in-use':
-                        this.error = 'Email already in use'
-                        break
-                    case 'auth/weak-password':
-                        this.error = 'Password is too weak'
-                        break
-                    default:
-                        this.error = errorMessage
-                    }
 
-                    setTimeout(() => {
-                        this.error = ''
-                    }, errorTimer * 1000)
-                    // ..
-                })
+            userStore.register({
+                email: this.email,
+                password: this.password
+            }, this.methodCallback)
         },
 
         signInWithGoogle () {
-            const provider = new GoogleAuthProvider()
-            signInWithPopup(getAuth(firebaseApp), provider)
-                .then((result) => {
-                    this.$router.push('/')
-                })
-                .catch((error) => {
-                    switch (error.code) {
-                    case 'auth/account-exists-with-different-credential':
-                        this.error = 'Account already exists with different credentials'
-                        break
-                    case 'auth/popup-closed-by-user':
-                        this.error = 'Sign in was cancelled'
-                        break
-                    default:
-                        this.error = error.message
-                    }
+            userStore.loginWithGoogle()
+        },
 
-                    setTimeout(() => {
-                        this.error = ''
-                    }, errorTimer * 1000)
-                })
+        methodCallback ({ user, error }) {
+            if (error) {
+                this.error = error
+                setTimeout(() => {
+                    this.error = ''
+                }, errorTimer * 1000)
+            } else {
+                this.$router.push('/')
+            }
         }
     }
 }

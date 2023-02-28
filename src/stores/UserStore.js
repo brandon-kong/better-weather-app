@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
-import { firebaseApp, addUser, getUser } from '@/firebase'
+import { firebaseApp, addUser, getUser, addLocationToUser } from '@/firebase'
 
 export const useUserStore = defineStore('UserStore', {
     // state
@@ -9,29 +9,51 @@ export const useUserStore = defineStore('UserStore', {
             user: {
                 name: 'John Doe',
                 email: '',
-                data: {}
+                uid: '',
+                data: {
+                    savedLocations: {}
+                },
+                error: ''
             }
         }
     },
 
-    getters: {
-        getUser (state) {
-            return state.user
-        }
-    },
-
     actions: {
-        async register ({ email, password }) {
-            console.log(email, password)
+
+        createDbUser ({ userCredential, email }) {
+            return addUser(userCredential.user.uid, {
+                email: email,
+                savedLocations: {}
+            })
+        },
+
+        async register ({ email, password }, callb) {
             createUserWithEmailAndPassword(getAuth(firebaseApp), email, password)
                 .then((userCredential) => {
                     // Signed in
-                    const user = addUser(userCredential.user.uid, {
-                        email: this.email,
-                        savedLocations: []
-                    })
-                    console.log(user)
+                    const user = this.createDbUser({ userCredential, email })
+                    this.user = userCredential
+                    this.uid = userCredential.user.uid
+                    callb({ user: user })
                     this.$router.push('/')
+                })
+                .catch((error) => {
+                    // const errorCode = error.code
+                    const errorMessage = error.message
+                    switch (error.code) {
+                    case 'auth/invalid-email':
+                        this.error = 'Invalid email'
+                        break
+                    case 'auth/email-already-in-use':
+                        this.error = 'Email already in use'
+                        break
+                    case 'auth/weak-password':
+                        this.error = 'Password is too weak'
+                        break
+                    default:
+                        this.error = errorMessage
+                    }
+                    callb({ error: this.error })
                 })
         },
 
@@ -66,7 +88,19 @@ export const useUserStore = defineStore('UserStore', {
             const provider = new GoogleAuthProvider()
             signInWithPopup(getAuth(firebaseApp), provider)
                 .then((result) => {
-                    this.$router.push('/')
+                    const user = getUser(result.user.uid)
+                    user.then((user) => {
+                        if (user.exists()) {
+                            this.user = user
+                            this.uid = result.user.uid
+                            // do something
+                        } else {
+                            console.log('why')
+                            user = this.createDbUser({ userCredential: result, email: result.user.email })
+                            this.user = result
+                            this.uid = result.user.uid
+                        }
+                    })
                 })
                 .catch((error) => {
                     switch (error.code) {
@@ -80,6 +114,22 @@ export const useUserStore = defineStore('UserStore', {
                         this.error = 'Something went wrong'
                     }
                 })
+        },
+
+        addLocation (location) {
+            const auth = getAuth(firebaseApp)
+            const user = auth.currentUser
+            if (user) {
+                addLocationToUser(user.uid, location)
+
+                this.user.data.savedLocations = {
+                    ...this.user.data.savedLocations,
+                    [location]: {}
+                }
+                console.log(this.user)
+            } else {
+                console.log('no user')
+            }
         }
     }
 })
