@@ -174,8 +174,10 @@ import IconList from '@/components/IconList/Main.vue'
 import StackText from '@/components/StackText/Main.vue'
 import SavedLocations from '@/components/Home/SavedLocations/Main.vue'
 
-import { getAuth } from '@firebase/auth'
+import { getAuth, onAuthStateChanged } from '@firebase/auth'
 import { firebaseApp, getLocations } from '@/firebase'
+
+import { DeserializeName, GetLocationFromCoords } from '@/geocoder'
 
 export default {
     name: 'HomeView',
@@ -207,7 +209,12 @@ export default {
     },
 
     mounted () {
-        this.getSavedLocations()
+        const auth = getAuth(firebaseApp)
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                this.getSavedLocations(user)
+            }
+        })
     },
 
     methods: {
@@ -229,19 +236,36 @@ export default {
             })
         },
 
-        getSavedLocations () {
-            const auth = getAuth(firebaseApp)
-            const user = auth.currentUser
-
-            console.log(user)
+        async getSavedLocations (user) {
             if (user) {
-                const locations = getLocations(user.uid)
-                locations.then((data) => {
-                    this.savedLocations = data
-                })
+                getLocations(user.uid, this.savedLocationCb)
+            }
+        },
+
+        savedLocationCb (location) {
+            const b = []
+            for (const key in location) {
+                console.log(location[key])
+                const c = DeserializeName(location[key].id)
+                GetLocationFromCoords({ lat: c.lat, lon: c.lon })
+                    .then((res) => {
+                        const body = res.data.features[0].properties
+                        const d = {
+                            name: body.address_line1,
+                            country: body.country,
+                            city: body.city,
+                            lat: body.lat,
+                            lon: body.lon
+                        }
+                        b.push(d)
+                        this.savedLocations = b
+                        console.log(this.savedLocations)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
             }
         }
-
     }
 }
 

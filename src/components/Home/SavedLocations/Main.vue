@@ -1,13 +1,14 @@
 <template>
     <section class="saved-locations">
-        <h1 class="content-title">Saved Locations ({{ getWeatherLength() }})</h1>
+        <h1 class="content-title">Saved Locations ({{ getDictLength(locations) }})</h1>
 
-        <ul v-if="savedWeather.length > 0">
-            <li v-for="location in savedWeather" :key="location.id">
+        <ul v-if="getDictLength(locations) > 0" class="location-list">
+            <li v-for="location in locations" :key="location.id">
                 <div class="saved-locations-container">
                     <div class="saved-location">
                         <div class="location-name">
-                            <h2>Location Name</h2>
+                            <h2 class="location-n">{{ location.name }}</h2>
+                            <p class="location-ct">{{ location.city }}, {{ location.country }}</p>
                         </div>
                         <div class="location-weather">
                             <div class="location-weather-current">
@@ -60,6 +61,31 @@
         text-align: center;
         color: #333;
     }
+
+    .location-list {
+        list-style: none;
+    }
+    .saved-location {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #eee;
+        text-align: center;
+
+        background-color: #eee;
+        min-height: 300px;
+        padding: 2rem;
+        border-radius: 10px;
+    }
+
+    .location-n {
+        font-size: 1.5rem;
+        color: #333;
+        padding-bottom: 1rem;
+    }
 </style>
 
 <script>
@@ -79,13 +105,16 @@ export default {
         RouterButton
     },
 
-    methods: {
-        getSavedWeather () {
-            this.savedWeather = this.$store.getters.getSavedWeather
-        },
+    props: {
+        locations: {
+            type: Array,
+            required: true
+        }
+    },
 
-        getWeatherLength () {
-            return Object.keys(this.savedWeather).length
+    methods: {
+        getDictLength (dict) {
+            return Object.keys(dict).length
         }
     }
 }

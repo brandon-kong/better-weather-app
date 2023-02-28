@@ -1,5 +1,8 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore'
+import { getFirestore, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
+
+import { GetLocationFromCoords, DeserializeName } from '@/geocoder'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyBi7hiHKKLEnisccdpVQ2nPsHIgv8DxR0s',
@@ -21,28 +24,26 @@ export const addUser = async (id, data) => {
 }
 
 export const addLocationToUser = async (id, location) => {
-    console.log('hi')
+    const { lat, lon } = DeserializeName(location)
+    const data = await GetLocationFromCoords({ lat: lat, lon: lon })
     await updateDoc(doc(database, 'users', id), {
-        savedLocations: arrayUnion(location)
+        [`savedLocations.${[data.data.features[0].properties.place_id]}`]: {
+            id: location,
+            data: data.data.features[0].properties
+        }
     })
-        .then(() => {
-            console.log('Document successfully updated!')
-        })
 }
 
 export const getUser = async id => {
     const user = await getDoc(doc(database, 'users', id))
-    console.log(user.exists())
     return user
 }
 
-export const getLocations = async id => {
-    console.log('hi')
+export const getLocations = async (id, cb) => {
+    getAuth(firebaseApp)
     getUser(id).then((userCred) => {
-        console.log(userCred)
         if (userCred.exists()) {
-            console.log('yipee')
-            return userCred.data().savedLocations
+            cb(userCred.data().savedLocations)
         } else {
             return []
         }

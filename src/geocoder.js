@@ -20,4 +20,18 @@ export const GetAutocompleteQuery = (text, cb) => {
         })
 }
 
+export const GetLocationFromCoords = ({ lat, lon }, cb) => {
+    const config = {
+        method: 'get',
+        url: 'https://api.geoapify.com/v1/geocode/reverse?lat=' + lat + '&lon=' + lon + '&apiKey=' + apiKey,
+        headers: { }
+    }
+    return axios(config)
+}
+
+export const DeserializeName = (name, cb) => {
+    const sliced = name.split(',')
+    return { lat: sliced[0], lon: sliced[1] }
+}
+
 export default GetAutocompleteQuery
