@@ -3,12 +3,12 @@
         <h1 class="content-title">Saved Locations ({{ getDictLength(locations) }})</h1>
 
         <ul v-if="getDictLength(locations) > 0" class="location-list">
-            <li v-for="location in locations" :key="location.id">
+            <li v-for="(location, index) in getSlicedEntries(locations)" :key="index">
                 <div class="saved-locations-container">
-                    <div class="saved-location">
+                    <div class="saved-location" @click="getWeather(location)">
                         <div class="location-name">
-                            <h2 class="location-n">{{ location.name }}</h2>
-                            <p class="location-ct">{{ location.city }}, {{ location.country }}</p>
+                            <h2 class="location-n">{{ location.data.address_line1 }}</h2>
+                            <p class="location-ct">{{ location.data.city || location.data.county }}, {{ location.data.country }}</p>
                         </div>
                         <div class="location-weather">
                             <div class="location-weather-current">
@@ -29,6 +29,7 @@
                 <RouterButton to="/search">Search Locations</RouterButton>
             </div>
         </div>
+        <RouterButton to="/search">Find more locations</RouterButton>
     </section>
 </template>
 
@@ -64,6 +65,9 @@
 
     .location-list {
         list-style: none;
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
     }
     .saved-location {
         display: flex;
@@ -72,13 +76,20 @@
         align-items: center;
         gap: 1rem;
         padding: 1rem 0;
-        border-bottom: 1px solid #eee;
         text-align: center;
 
         background-color: #eee;
         min-height: 300px;
         padding: 2rem;
         border-radius: 10px;
+
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .saved-location:hover {
+        background-color: #dedede;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
     }
 
     .location-n {
@@ -107,7 +118,7 @@ export default {
 
     props: {
         locations: {
-            type: Array,
+            type: Object,
             required: true
         }
     },
@@ -115,6 +126,25 @@ export default {
     methods: {
         getDictLength (dict) {
             return Object.keys(dict).length
+        },
+
+        getSlicedEntries (dict) {
+            const sliced = Object.fromEntries(
+                Object.entries(this.locations).slice(0, 5)
+            )
+
+            return sliced
+        },
+
+        getWeather (location) {
+            this.$router.push({
+                path: '/weather',
+                query: {
+                    lat: location.data.lat,
+                    lon: location.data.lon,
+                    location: 'hi'
+                }
+            })
         }
     }
 }

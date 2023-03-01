@@ -34,4 +34,14 @@ export const DeserializeName = (name, cb) => {
     return { lat: sliced[0], lon: sliced[1] }
 }
 
+export const SerializeName = ({ lat, lon }) => {
+    const stringLat = lat.toString()
+    const stringLon = lon.toString()
+
+    const b = stringLat.replaceAll('.', '|')
+    const c = stringLon.replaceAll('.', '|')
+
+    return b + ',' + c
+}
+
 export default GetAutocompleteQuery

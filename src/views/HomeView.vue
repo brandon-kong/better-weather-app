@@ -29,7 +29,6 @@
             </div>
         </div>
         <div class="home">
-            me: {{ savedLocations }}
             <SavedLocations :locations="savedLocations" />
         </div>
     </div>
@@ -177,8 +176,6 @@ import SavedLocations from '@/components/Home/SavedLocations/Main.vue'
 import { getAuth, onAuthStateChanged } from '@firebase/auth'
 import { firebaseApp, getLocations } from '@/firebase'
 
-import { DeserializeName, GetLocationFromCoords } from '@/geocoder'
-
 export default {
     name: 'HomeView',
     data () {
@@ -229,7 +226,6 @@ export default {
                 // console.log(location.coords)
                 const b = locationStore.getWeather(location.coords.latitude, location.coords.longitude)
                 b.then((weather) => {
-                    console.log(weather)
                     this.clientWeather.currentTemp = weather.hourly.temperature_2m[0]
                     this.clientWeather.apparentTemp = weather.hourly.apparent_temperature[0]
                 })
@@ -243,28 +239,7 @@ export default {
         },
 
         savedLocationCb (location) {
-            const b = []
-            for (const key in location) {
-                console.log(location[key])
-                const c = DeserializeName(location[key].id)
-                GetLocationFromCoords({ lat: c.lat, lon: c.lon })
-                    .then((res) => {
-                        const body = res.data.features[0].properties
-                        const d = {
-                            name: body.address_line1,
-                            country: body.country,
-                            city: body.city,
-                            lat: body.lat,
-                            lon: body.lon
-                        }
-                        b.push(d)
-                        this.savedLocations = b
-                        console.log(this.savedLocations)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-            }
+            this.savedLocations = location
         }
     }
 }

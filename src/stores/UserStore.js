@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
-import { firebaseApp, addUser, getUser, addLocationToUser } from '@/firebase'
+import { firebaseApp, addUser, getUser, addLocationToUser, removeLocationFromUser, userSavedLocation } from '@/firebase'
 
 export const useUserStore = defineStore('UserStore', {
     // state
@@ -130,6 +130,27 @@ export const useUserStore = defineStore('UserStore', {
             } else {
                 console.log('no user')
             }
+        },
+
+        removeLocation (location) {
+            const auth = getAuth(firebaseApp)
+            const user = auth.currentUser
+            if (user) {
+                removeLocationFromUser(user.uid, location)
+            } else {
+                console.log('no user')
+            }
+        },
+
+        isSaved (location) {
+            const auth = getAuth(firebaseApp)
+            const user = auth.currentUser
+            if (user) {
+                return userSavedLocation(user.uid, location)
+            } else {
+                console.log('no user')
+            }
         }
+
     }
 })

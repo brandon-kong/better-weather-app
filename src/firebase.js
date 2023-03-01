@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
+import { getFirestore, doc, setDoc, getDoc, updateDoc, deleteField } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 
-import { GetLocationFromCoords, DeserializeName } from '@/geocoder'
+import { GetLocationFromCoords, DeserializeName, SerializeName } from '@/geocoder'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyBi7hiHKKLEnisccdpVQ2nPsHIgv8DxR0s',
@@ -26,11 +26,30 @@ export const addUser = async (id, data) => {
 export const addLocationToUser = async (id, location) => {
     const { lat, lon } = DeserializeName(location)
     const data = await GetLocationFromCoords({ lat: lat, lon: lon })
+
     await updateDoc(doc(database, 'users', id), {
-        [`savedLocations.${[data.data.features[0].properties.place_id]}`]: {
+        [`savedLocations.${SerializeName({ lat: lat, lon: lon })}`]: {
             id: location,
             data: data.data.features[0].properties
         }
+    })
+}
+
+export const userSavedLocation = async (id, location) => {
+    const { lat, lon } = DeserializeName(location)
+    const userB = await getDoc(doc(database, 'users', id))
+    const key = SerializeName({ lat: lat, lon: lon })
+    if (userB.exists()) {
+        return userB.data().savedLocations[key] !== undefined
+    } else {
+        return false
+    }
+}
+
+export const removeLocationFromUser = async (id, location) => {
+    const { lat, lon } = DeserializeName(location)
+    await updateDoc(doc(database, 'users', id), {
+        [`savedLocations.${SerializeName({ lat: lat, lon: lon })}`]: deleteField()
     })
 }
 

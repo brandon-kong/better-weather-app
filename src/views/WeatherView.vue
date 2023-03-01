@@ -8,7 +8,8 @@
                 <p id="chanceOfRain">Chance of rain: {{ weather.currentConditions.precip }}%</p>
 
                 <h1 id="temp"> {{ weather.currentConditions.temp }} °F</h1>
-                <button @click="addToList(weather.latitude+','+weather.longitude)">Add to list</button>
+                <Button v-if="isSavedLocation == false" @click="addToList(weather.latitude+','+weather.longitude)">Add to list</Button>
+                <Button v-else @click="removeFromList(weather.latitude+','+weather.longitude)">Remove from list</Button>
             </div>
             <div class="weather-top-right">
                 <img draggable="false" class="weather-icon" v-bind:src="getImgUrl(weather.currentConditions.icon)" alt="weather icon">
@@ -27,11 +28,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="daily-forecast">
+                <div class="daily-forecast">
+                </div>
             </div>
         </div>
-        </div>
+        <router-link to="/search">Back</router-link>
     </div>
+
     <div v-else>
         {{ error }}
         <router-link to="/search">Back</router-link>
@@ -68,9 +71,9 @@
 }
 
 #temp {
-    padding-top: 3rem;
     font-size: 3.5rem;
     font-weight: 800;
+    padding: 3rem 0;
 }
 
 .weather-icon {
@@ -149,6 +152,8 @@ import { useUserStore } from '@/stores/UserStore'
 import { getAuth } from 'firebase/auth'
 import { firebaseApp } from '@/firebase'
 
+import Button from '@/components/Home/Button.vue'
+
 const userStore = useUserStore()
 
 export default {
@@ -158,20 +163,39 @@ export default {
         return {
             weather: null,
             location: null,
-            error: null
+            error: null,
+            isSavedLocation: false
         }
     },
 
     components: {
-        Navbar
+        Navbar,
+        Button
     },
 
     created () {
         this.queryWeather()
     },
 
+    mounted () {
+        this.isSaved().then(isSaved => {
+            const auth = getAuth(firebaseApp)
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    if (this.weather) {
+                        this.isSaved().then(isSaved => {
+                            this.isSavedLocation = isSaved
+                        })
+                    }
+                }
+            })
+            this.isSavedLocation = isSaved
+        })
+    },
+
     watch: {
-        '$route.query': 'queryWeather'
+        '$route.query': 'queryWeather',
+        weather: 'isSaved'
     },
 
     methods: {
@@ -195,7 +219,10 @@ export default {
                 default:
                     this.error = error.message
                 }
-            } else this.weather = data
+            } else {
+                this.weather = data
+                // this.isSavedLocation = userStore.savedLocations.some(location => location.name === this.weather.location.name)
+            }
         },
 
         getImgUrl (pic) {
@@ -237,9 +264,33 @@ export default {
             const user = auth.currentUser
             if (user) {
                 userStore.addLocation(id)
+                this.isSavedLocation = true
             } else {
                 alert('You must be logged in to add to your list')
             }
+        },
+
+        removeFromList (id) {
+            const auth = getAuth(firebaseApp)
+            const user = auth.currentUser
+            if (user) {
+                userStore.removeLocation(id)
+                this.isSavedLocation = false
+            } else {
+                alert('You must be logged in to remove from your list')
+            }
+        },
+
+        async isSaved () {
+            console.log('bnyeasdf')
+            const auth = getAuth(firebaseApp)
+            const user = auth.currentUser
+            if (user) {
+                const b = await userStore.isSaved(this.weather.latitude + ',' + this.weather.longitude)
+                console.log(b)
+                return b
+            }
+            return false
         }
     }
 }
